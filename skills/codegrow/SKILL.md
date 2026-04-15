@@ -15,7 +15,7 @@ CodeGrow transforms your development process into engineering assets and persona
 2.  **Abstract Reusable Skills**: Identify and extract reusable patterns (algorithms, strategies, patterns) into standalone skill documents.
 3.  **Generate Growth Reports**: Assess developer growth and write reports to Lark Cloud Docs (Preferred) or local files.
 4.  **Maintain AI Context**: Summarize AI conversations in `.codegrow/context/` to provide historical context for future AI development sessions.
-5.  **Enforce Quality via Git Hooks**: Ensure daily growth reports are generated before pushing code.
+5.  **Enforce Quality via Git Hooks (Optional)**: Ensure daily growth reports are generated before pushing code, if the user opts in.
 
 ## Workflow
 
@@ -32,12 +32,14 @@ Check if `.codegrow/` structure exists and is fully configured.
   - `.codegrow/hooks/` (Git hooks scripts)
   - `.codegrow/scripts/` (Utility scripts)
 
-- **Git Hook Installation (CRITICAL)**:
-  1.  **Check**: Verify if `.git/hooks/pre-push` exists and contains CodeGrow logic.
-  2.  **Create Script**: If missing, create `.codegrow/hooks/pre-push.js` to check for today's report.
-  3.  **Create Installer**: Create `.codegrow/scripts/install_hooks.js` to symlink/copy the hook.
-  4.  **Install**: **IMMEDIATELY RUN** `node .codegrow/scripts/install_hooks.js`.
-  5.  **Configure package.json**: If `package.json` exists, check for `"postinstall": "node .codegrow/scripts/install_hooks.js"`. If missing, add it to ensure future team members get the hook automatically.
+- **Git Hook Installation (Optional)**:
+  1.  **Ask Preference**: Ask the user: "是否要在每次 git push 前强制执行一次总结？ (Do you want to enforce generating a growth report before every git push?)"
+  2.  **Skip if Denied**: If the user does not need it, skip all git pre-hook related configurations.
+  3.  **Check**: If the user agrees, verify if `.git/hooks/pre-push` exists and contains CodeGrow logic.
+  4.  **Create Script**: If missing, create `.codegrow/hooks/pre-push.js` to check for today's report.
+  5.  **Create Installer**: Create `.codegrow/scripts/install_hooks.js` to symlink/copy the hook.
+  6.  **Install**: **IMMEDIATELY RUN** `node .codegrow/scripts/install_hooks.js`.
+  7.  **Configure package.json**: If `package.json` exists, check for `"postinstall": "node .codegrow/scripts/install_hooks.js"`. If missing, add it to ensure future team members get the hook automatically.
 
 ### 2. Analyze Context
 Review the current session, recent file changes, and any `git diff`. Identify:
